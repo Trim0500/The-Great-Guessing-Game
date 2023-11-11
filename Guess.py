@@ -44,13 +44,6 @@ class Guess:
         selected_word = self._string_database.get_new_game_word()
         self._game_list.append(Game(self._current_game_index, selected_word))
 
-    def start_game(self):
-        print("++\n++ The great guessing game\n++\n")
-
-        self.init_new_game()
-
-        self.display_guess_stat_screen()
-
     def display_guess_stat_screen(self):
         if self._game_mode == "test":
             print("Selected Word: " + self._game_list[self._current_game_index - 1].get_selected_word())
@@ -75,7 +68,35 @@ class Guess:
             self.run_letter_guess()
         else:
             self.show_final_result_and_quit()
+
+    def start_game(self):
+        print("++\n++ The great guessing game\n++\n")
+
+        self.init_new_game()
+
+        self.display_guess_stat_screen()
     
+    def print_feedback(self, option_selected, word_guess_result = False, num_letters_in_word = 0, game_index = 0):
+        print("\n@@\n@@ FEEDBACK: ", end="")
+        if option_selected == 1:
+            if word_guess_result:
+                print("You're right, Einstein!\n@@\n")
+            else:
+                print("Try again, loser!\n@@\n")
+        elif option_selected == 2:
+            print("You really should have guessed this...'" + self._game_list[game_index].get_selected_word() + "'\n@@\n")
+        elif option_selected == 3:
+            if num_letters_in_word > 0:
+                print("Woo hoo, you found " + str(num_letters_in_word) + " letters\n@@\n")
+            else:
+                print("Not a single match, genius\n@@\n")
+        
+        keyboard_input = input("Press any key to continue...")
+        
+        os.system("cls")
+
+        self.display_guess_stat_screen()
+        
     def run_word_guess(self):
         keyboard_word_guess = input("\nMake your guess: ").strip().lower()
         while not isinstance(keyboard_word_guess, str):
@@ -118,23 +139,3 @@ class Guess:
 
         exit()
 
-    def print_feedback(self, option_selected, word_guess_result = False, num_letters_in_word = 0, game_index = 0):
-        print("\n@@\n@@ FEEDBACK: ", end="")
-        if option_selected == 1:
-            if word_guess_result:
-                print("You're right, Einstein!\n@@\n")
-            else:
-                print("Try again, loser!\n@@\n")
-        elif option_selected == 2:
-            print("You really should have guessed this...'" + self._game_list[game_index].get_selected_word() + "'\n@@\n")
-        elif option_selected == 3:
-            if num_letters_in_word > 0:
-                print("Woo hoo, you found " + str(num_letters_in_word) + " letters\n@@\n")
-            else:
-                print("Not a single match, genius\n@@\n")
-        
-        keyboard_input = input("Press any key to continue...")
-        
-        os.system("cls")
-
-        self.display_guess_stat_screen()

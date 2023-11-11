@@ -95,15 +95,6 @@ class Game:
             "z": 0.07,
         }
 
-    def check_word_guess(self, keyboard_guess: str):
-        isCorrect = self._selected_word.lower().__eq__(keyboard_guess)
-        if isCorrect:
-            self.end_game(isCorrect)
-        else:
-            self._num_bad_guesses += 1
-
-        return isCorrect
-
     def end_game(self, success: bool):
         total_guess_score_value = 0.0
 
@@ -131,6 +122,15 @@ class Game:
 
         if self._num_bad_guesses != 0:
             self._score -= abs(self._score * 0.1 * self._num_bad_guesses)
+
+    def check_word_guess(self, keyboard_guess: str):
+        isCorrect = self._selected_word.lower().__eq__(keyboard_guess)
+        if isCorrect:
+            self.end_game(isCorrect)
+        else:
+            self._num_bad_guesses += 1
+
+        return isCorrect
 
     def check_letter_guess(self, letter: str):
         num_letters_in_word = 0
