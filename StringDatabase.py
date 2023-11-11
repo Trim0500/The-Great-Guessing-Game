@@ -16,7 +16,7 @@ class StringDatabase:
     def set_string_list(self, strong_list: list[str]):
         self._file_directory = strong_list
 
-    def __init__(self, directory, seed):
+    def __init__(self, directory):
         self._file_directory = directory
 
         with open(self._file_directory, "r") as file:
