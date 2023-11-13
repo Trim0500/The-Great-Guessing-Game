@@ -94,7 +94,7 @@ class Guess:
         
         keyboard_input = input("Press any key to continue...")
         
-        os.system("cls")
+        os.system("clear")
 
         self.display_guess_stat_screen()
         
