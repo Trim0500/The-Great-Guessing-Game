@@ -1,6 +1,7 @@
 from Game import Game
 from StringDatabase import StringDatabase
 from datetime import datetime
+import re
 import os
 
 class Guess:
@@ -35,7 +36,7 @@ class Guess:
 
     def __init__(self, mode: str):
       self._game_mode = mode
-      self._string_database = StringDatabase("four_letters.txt", datetime.now().timestamp())
+      self._string_database = StringDatabase("four_letters.txt")
       self._current_game_index = 0
 
     def init_new_game(self):
@@ -99,7 +100,7 @@ class Guess:
         
     def run_word_guess(self):
         keyboard_word_guess = input("\nMake your guess: ").strip().lower()
-        while not isinstance(keyboard_word_guess, str):
+        while len(re.findall("[0-9]+", keyboard_word_guess)) != 0:
             keyboard_word_guess = input("Invalid input, please re-enter: ").strip().lower()
         
         is_correct = self._game_list[self._current_game_index - 1].check_word_guess(keyboard_word_guess)
@@ -117,7 +118,7 @@ class Guess:
     
     def run_letter_guess(self):
         keyboard_word_guess = input("\nEnter a letter: ").strip().lower()
-        while not isinstance(keyboard_word_guess, str) and len(keyboard_word_guess) > 1:
+        while len(keyboard_word_guess) > 1 or len(re.findall("[0-9]", keyboard_word_guess)):
             keyboard_word_guess = input("Invalid input, please re-enter: ").strip().lower()
         
         num_letters_in_word = self._game_list[self._current_game_index - 1].check_letter_guess(keyboard_word_guess)
