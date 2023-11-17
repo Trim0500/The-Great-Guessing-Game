@@ -95,8 +95,6 @@ class Guess:
         """
         Method that will start the guessing game from the driver program.
         """
-        print("++\n++ The great guessing game\n++\n")
-
         self.init_new_game()
 
         self.display_guess_stat_screen()
