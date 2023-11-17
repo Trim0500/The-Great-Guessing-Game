@@ -1,3 +1,4 @@
+# Check to see if this invocation of the file is the driver program
 if __name__ == "__main__":
     import sys
     from Guess import Guess

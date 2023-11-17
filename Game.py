@@ -1,4 +1,22 @@
 class Game:
+    """
+    Class that represents a game played and the associated stats that are generated.
+
+    Fields:
+        _game_index: Integer that represents the index of of the game.
+        _selected_word: String that represents the randomly selected word chosen from the string database.
+        _guess_state: String that represents the progress of the discovery process of the selected word.
+                        A - represents a letter that has yet to be found.
+        _letters_guessed: A list comprising of the individual letters the user guessed with.
+        _status: String that represents the completness of the game.
+                    Success = User found the word
+                    Gave Up = User failed to find the word
+                    Incomplete = Inconclusive results
+        _num_bad_guesses: Integer that represents the number of times an incorrect guess was made by the user.
+        _num_missed_letters: Integer that represents the number of letters that aren't in the word when guessed by the user.
+        _score: Double precision float that represents the accumulated score the user has attributed to the game.
+        _letter_frequency_dict: Dictionary that represents the frequency percentages tied to letters when evaluating score.        
+    """
     _game_index: int = 0
     _selected_word: str = ""
     _guess_state: str = ""
@@ -96,6 +114,15 @@ class Game:
         }
 
     def end_game(self, success: bool):
+        """
+        Method that closes a game down. Evaluates the remaining non-visible letters in the word as as boons or penaltiies
+        based on the result of the game. Also evaluates the number of bad guesses and missed letter guesses as penaties to
+        the overall score. The exact values of the letters are retrieved from the associated frequency dictionary and bad
+        guesses shave off 10% of the current score.
+
+        Args:
+            success: Boolean representing a successful guess or a surrender.
+        """
         total_guess_score_value = 0.0
 
         for i in range(0, len(self._guess_state)):
@@ -124,6 +151,15 @@ class Game:
             self._score -= abs(self._score * 0.1 * self._num_bad_guesses)
 
     def check_word_guess(self, keyboard_guess: str):
+        """
+        Method to evaluate if a user's word guess matches the selected word for the current game. Case insensitive.
+
+        Args:
+            keyboard_guess: String that represents the user's input
+
+        Returns:
+            Bool that represents the status of the word guess.
+        """
         isCorrect = self._selected_word.lower().__eq__(keyboard_guess)
         if isCorrect:
             self.end_game(isCorrect)
@@ -133,6 +169,16 @@ class Game:
         return isCorrect
 
     def check_letter_guess(self, letter: str):
+        """
+        Method to evaluate if the user's letter guess is found in the selected word in the game. Case insensitive and can
+        pick up on multiple positions the letter is found in.
+
+        Args:
+            letter: String that represents the user's inputted letter
+
+        Returns: 
+            Integer that represents the number of letters that were found in the word form the guess.
+        """
         num_letters_in_word = 0
 
         for i in range(0, len(self._selected_word)):
@@ -163,6 +209,12 @@ class Game:
         return num_letters_in_word
     
     def display_game_stats(self):
+        """
+        Method that will display a formatted string of the current game's stats up to the point of invocation.
+
+        Returns:
+            String that is formmated to display the games stats.
+        """
         display_template = "{0}\t\t{1}\t\t{2}\t\t{3}\t\t{4}\t\t{5:.2f}"
         
         return display_template.format(self._game_index,
